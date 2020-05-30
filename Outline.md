@@ -1,10 +1,10 @@
 # Requirements
 
-2 input fields (first and second operator) with the input being validated
-before accepting.
-(On keydown see if it's a number and if not display an error.)
-A button for the basic math operation (+ - * /)
-A result and clear button.
+~~2 input fields (first and second operator) with the input being validated
+before accepting.~~
+~~(On keydown see if it's a number and if not don't allow the input.)~~
+~~A button for each of the basic math operations (+ - * /)~~
+~~A result and clear button.~~
 Large display of result
 Running history of calculation (array)
 

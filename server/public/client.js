@@ -1,10 +1,6 @@
 $(document).ready(runTheseFunctions);
 
 const calculationsArray = [];
-const operationKeys = ['+', '-', 'x', 'X', '*', '/'];
-// Only one "." can be entered per number on one side of the operator so if a "." is
-// entered this will be set to false ("40.4" false, "40.4+" true "40.4-34.2" false).
-let canEnterAnotherPeriod = true;
 
 function runTheseFunctions() {
   // Check if the character the user is trying to enter are valid.
@@ -42,6 +38,11 @@ function checkIfInputIsValid(event) {
   checkValidMath(key);
 }
 
+const operationKeys = ['+', '-', 'x', 'X', '*', '/'];
+
+// Only one "." can be entered per number on one side of the operator so if a "." is
+// entered this will be set to false ("40.4" false, "40.4+" true "40.4-34.2" false).
+let canEnterAnotherPeriod = true;
 function checkValidMath(key) {
   let allowCharacter = true;
   let inputFieldValue = $('#inputNumbersField').val();
@@ -56,6 +57,7 @@ function checkValidMath(key) {
     } else {
       calculationsArray.push(key);
     }
+    canEnterAnotherPeriod = true;
   // The user pressed enter so run the calculation as if they had clicked the calculate button.
   } else if (key === 'Enter') {
     calculate();
@@ -112,7 +114,7 @@ function checkValidMath(key) {
 function calculate() {
   const inputFieldValue = $('#inputNumbersField').val();
   // If the end doesn't have a number (because it's an operator) add a 0 (34+ ==> 34+0).
-  const lastCharacter = inputFieldValue[inputFieldValue.length - 1]
+  const lastCharacter = inputFieldValue[inputFieldValue.length - 1];
   const theEndHasAnOperator = operationKeys.some(allowedKey => allowedKey === lastCharacter);
   if (theEndHasAnOperator === true) {
     calculationsArray.push('0');
