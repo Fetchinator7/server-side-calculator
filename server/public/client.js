@@ -9,7 +9,11 @@ let canEnterAnotherPeriod = true;
 function runTheseFunctions() {
   // Check if the character the user is trying to enter are valid.
   $('#inputNumbersField').on('keydown', checkIfInputIsValid);
-  $('#calculateButton').on('click', calculate);
+  $('#add').on('click', add);
+  $('#subtract').on('click', subtract);
+  $('#multiply').on('click', multiply);
+  $('#divide').on('click', divide);
+  $('#calculate').on('click', calculate);
   $('#clear').on('click', clearInput);
 }
 
@@ -18,36 +22,52 @@ function clearInput() {
   calculationsArray.length = 0;
   canEnterAnotherPeriod = true;
 }
-
-function checkIfInputIsValid(event) {
-  console.log(event);
-  checkValidMathInput(event);
+function add() {
+  checkValidMath('+');
+}
+function subtract() {
+  checkValidMath('-');
+}
+function multiply() {
+  checkValidMath('x');
+}
+function divide() {
+  checkValidMath('/');
 }
 
-function checkValidMathInput(event) {
+function checkIfInputIsValid(event) {
   const key = event.key;
+  event.preventDefault();
+  checkValidMath(key);
+}
+
+function checkValidMath(key) {
+  let allowCharacter = true;
+  let inputFieldValue = $('#inputNumbersField').val();
   // Array of the string values for allowed keys.
-  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+  const allowedNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   // The user pressed enter so run the calculation as if they had clicked the calculate button.
   if (key === 'Enter') {
     calculate();
+    allowCharacter = false;
   // If the input is 'C' clear the box and calculations array.
   } else if (key === 'c' || key === 'C') {
     clearInput();
-    event.preventDefault();
-  // If the user deleted a period so allow them to enter it again.
+    allowCharacter = false;
   } else if (key === 'Backspace') {
+    // The user deleted a period so allow them to enter one again.
     if (calculationsArray[calculationsArray.length - 1] === '.') {
       canEnterAnotherPeriod = true;
     }
     calculationsArray.pop();
+    $('#inputNumbersField').val(inputFieldValue.slice(0, -1));
+    allowCharacter = false;
   // The user may have entered '*', but treat it as if they entered 'x';
   } else if (key === '*' || key === 'x' || key === 'X') {
-    $('#inputNumbersField').val($('#inputNumbersField').val() + 'x');
+    $('#inputNumbersField').val(inputFieldValue + 'x');
     calculationsArray.push('x');
     canEnterAnotherPeriod = false;
-    event.preventDefault();
+    allowCharacter = false;
   // The user entered another operator (like +) so allow them to add another period.
   } else if (operationKeys.includes(key)) {
     canEnterAnotherPeriod = true;
@@ -55,20 +75,30 @@ function checkValidMathInput(event) {
   // The user entered "." so prevent them from entering any more "."
   // (unless the enter an operator).
   } else if (key === '.') {
+    // If the user enters a period after an operator precede it with a 0 (/. ==> /0.)
+    const operatorPrecedesPeriod = operationKeys.some(allowedKey => allowedKey === inputFieldValue[inputFieldValue.length - 1]);
+    console.log(operatorPrecedesPeriod);
     if (canEnterAnotherPeriod === true) {
+      if (operatorPrecedesPeriod === true) {
+        inputFieldValue += '0';
+      }
       canEnterAnotherPeriod = false;
-      calculationsArray.push(key);
+      calculationsArray.push('0', key);
     } else {
-      event.preventDefault();
+      allowCharacter = false;
     }
   } else {
-    const enteredAValidKey = allowedKeys.concat(operationKeys).some(allowedKey => key === allowedKey);
+    const enteredAValidKey = allowedNumbers.concat(operationKeys).some(allowedKey => key === allowedKey);
     if (enteredAValidKey === false) {
-      event.preventDefault();
+      allowCharacter = false;
     } else {
       calculationsArray.push(key);
     }
   }
+  if (allowCharacter === true) {
+    $('#inputNumbersField').val(inputFieldValue + key);
+  }
+  console.log(calculationsArray);
 }
 
 function calculate() {
