@@ -122,5 +122,35 @@ function calculate() {
   }
   console.log(calculationsArray);
   console.log('calculating...');
-  // Confirm there's an operator to perform a calculation on.
+  $.ajax({
+    method: 'POST',
+    url: '/calculate', // HTTP POST to http://localhost:5001/calculate
+    // this MUST be an object -- make it here, or use one
+    // that already exists!
+    data: { operationsArray: calculationsArray }
+  }).then(function (response) {
+    // it made it! heck yeah!
+    // if we are here, it means the server responded with 200/201
+    console.log('Server received the calculation!');
+    getCalculation();
+  }).catch(function (response) {
+    alert('Oh no, that calculation was rejected :(');
+  });
+}
+
+function getCalculation() {
+  $.ajax({
+    type: 'GET',
+    url: '/calculation'
+  }).then(function (response) {
+    // append data to the DOM
+    console.log(response.solution);
+    $('#mostRecentSolution').append(`<h2>${response.solution}</h2>`);
+    //   `<tr><td>${tournament.name}</td>
+    //   <td>${tournament.location}</td>
+    //   <td>${year}</td>
+    //   <td>${tournament.annualMatch[year].winner.firstName} ${tournament.annualMatch[year].winner.lastName}</td>
+    //   </tr>`));
+    // year += 1;
+  });
 }
