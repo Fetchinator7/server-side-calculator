@@ -13,3 +13,4 @@ Running history of calculation (array)
 Change interface to look like a calculator (based on the default iPhone calculator.)
 Add buttons for each number, but still accept keyboard input.
 Allow the user to click on a past calculation and run it again.
+Allow the user to multiple to the power of a number (let result = 10 ** precision;)

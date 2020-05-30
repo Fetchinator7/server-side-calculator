@@ -9,21 +9,32 @@ let canEnterAnotherPeriod = true;
 function runTheseFunctions() {
   // Check if the character the user is trying to enter are valid.
   $('#inputNumbersField').on('keydown', checkIfInputIsValid);
-  $('#calculateButton').on('click', checkValidInputThenCalculate);
+  $('#calculateButton').on('click', calculate);
+  $('#clear').on('click', clearInput);
+}
+
+function clearInput() {
+  $('#inputNumbersField').val('');
+  calculationsArray.length = 0;
+  canEnterAnotherPeriod = true;
 }
 
 function checkIfInputIsValid(event) {
-  // Array of the string values for allowed keys.
+  console.log(event);
+  checkValidMathInput(event);
+}
+
+function checkValidMathInput(event) {
   const key = event.key;
+  // Array of the string values for allowed keys.
   const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
     'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+  // The user pressed enter so run the calculation as if they had clicked the calculate button.
   if (key === 'Enter') {
-    checkValidInputThenCalculate();
+    calculate();
   // If the input is 'C' clear the box and calculations array.
   } else if (key === 'c' || key === 'C') {
-    $('#inputNumbersField').val('');
-    calculationsArray.length = 0;
-    canEnterAnotherPeriod = true;
+    clearInput();
     event.preventDefault();
   // If the user deleted a period so allow them to enter it again.
   } else if (key === 'Backspace') {
@@ -60,19 +71,9 @@ function checkIfInputIsValid(event) {
   }
 }
 
-function checkValidInputThenCalculate() {
+function calculate() {
   console.log(calculationsArray);
+  console.log('calculating...');
   const inputNumbersFieldVal = $('#inputNumbersField').val();
   // Confirm there's an operator to perform a calculation on.
-  const includesAnOperator = operationKeys.some(operator => inputNumbersFieldVal.includes(operator));
-  console.log(includesAnOperator);
-  if (includesAnOperator === false) {
-    console.log('Error, an operator must be entered for a calculation to be performed.');
-  }
-  const firstArgumentIsAnOperator = operationKeys[0].some(operator => inputNumbersFieldVal.includes(operator));
-  const hasSecondArgument = operationKeys.concat('.').some(operator => inputNumbersFieldVal.includes(operator));
-  console.log(hasFirstArgument);
-  if () {
-
-  }
 }
