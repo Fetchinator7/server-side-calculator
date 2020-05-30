@@ -2,58 +2,77 @@ $(document).ready(runTheseFunctions);
 
 const calculationsArray = [];
 const operationKeys = ['+', '-', 'x', 'X', '*', '/'];
+// Only one "." can be entered per number on one side of the operator so if a "." is
+// entered this will be set to false ("40.4" false, "40.4+" true "40.4-34.2" false).
 let canEnterAnotherPeriod = true;
 
 function runTheseFunctions() {
   // Check if the character the user is trying to enter are valid.
   $('#inputNumbersField').on('keydown', checkIfInputIsValid);
-  $('#calculateButton').on('click', calculate);
+  $('#calculateButton').on('click', checkValidInputThenCalculate);
 }
 
 function checkIfInputIsValid(event) {
-  console.log(event.key);
   // Array of the string values for allowed keys.
-  const allowedKeys = ['.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace',
-    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter'];
-  // If the keyboard value matches any item in the allowedKeys array enteredAValidKey =
-  // true.
-  // If the input is 'C' run the clear the input.
-  if (event.key === 'c' || event.key === 'C') {
-    clearInputBox();
+  const key = event.key;
+  const allowedKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+  if (key === 'Enter') {
+    checkValidInputThenCalculate();
+  // If the input is 'C' clear the box and calculations array.
+  } else if (key === 'c' || key === 'C') {
+    $('#inputNumbersField').val('');
     calculationsArray.length = 0;
     canEnterAnotherPeriod = true;
     event.preventDefault();
-  } else if (event.key === '*' || event.key === 'x' || event.key === 'X') {
-    // The user may have entered '*', but treat it as if they entered 'x';
+  // If the user deleted a period so allow them to enter it again.
+  } else if (key === 'Backspace') {
+    if (calculationsArray[calculationsArray.length - 1] === '.') {
+      canEnterAnotherPeriod = true;
+    }
+    calculationsArray.pop();
+  // The user may have entered '*', but treat it as if they entered 'x';
+  } else if (key === '*' || key === 'x' || key === 'X') {
     $('#inputNumbersField').val($('#inputNumbersField').val() + 'x');
     calculationsArray.push('x');
     canEnterAnotherPeriod = false;
     event.preventDefault();
   // The user entered another operator (like +) so allow them to add another period.
-  } else if (operationKeys.includes(event.key)) {
+  } else if (operationKeys.includes(key)) {
     canEnterAnotherPeriod = true;
-  } else if (event.key === '.') {
+    calculationsArray.push(key);
+  // The user entered "." so prevent them from entering any more "."
+  // (unless the enter an operator).
+  } else if (key === '.') {
     if (canEnterAnotherPeriod === true) {
       canEnterAnotherPeriod = false;
+      calculationsArray.push(key);
     } else {
       event.preventDefault();
     }
   } else {
-    const enteredAValidKey = allowedKeys.concat(operationKeys).some(allowedKey => event.key === allowedKey);
+    const enteredAValidKey = allowedKeys.concat(operationKeys).some(allowedKey => key === allowedKey);
     if (enteredAValidKey === false) {
       event.preventDefault();
     } else {
-      calculationsArray.push(event.key);
+      calculationsArray.push(key);
     }
   }
 }
 
-function calculate() {
+function checkValidInputThenCalculate() {
   console.log(calculationsArray);
-  const includesAnOperator = operationKeys.includes($('#inputNumbersField').val());
+  const inputNumbersFieldVal = $('#inputNumbersField').val();
+  // Confirm there's an operator to perform a calculation on.
+  const includesAnOperator = operationKeys.some(operator => inputNumbersFieldVal.includes(operator));
   console.log(includesAnOperator);
-}
+  if (includesAnOperator === false) {
+    console.log('Error, an operator must be entered for a calculation to be performed.');
+  }
+  const firstArgumentIsAnOperator = operationKeys[0].some(operator => inputNumbersFieldVal.includes(operator));
+  const hasSecondArgument = operationKeys.concat('.').some(operator => inputNumbersFieldVal.includes(operator));
+  console.log(hasFirstArgument);
+  if () {
 
-function clearInputBox() {
-  $('#inputNumbersField').val('');
+  }
 }
