@@ -13,32 +13,20 @@
     <header>
         Calculator
     </header>
-    <h2>Add Employee</h2>
-    <div class="inputFieldsBackground">
-        <input type="text" class="inputBoxSelector" placeholder="Placeholder 1">
-        <button id="enterEmployeeDataButton">Submit</button>
+    <h2>Server Side Calculator</h2>
+    <div class="calculatorInputs">
+        <input type="text" id="inputNumbersField" placeholder="Numbers">
+        <button class="operationButton">+</button>
+        <button class="operationButton">-</button>
+        <button class="operationButton">x</button>
+        <button class="operationButton">/</button>
+        <button class="operationButton" id="calculateButton">=</button>
+        <button class="operationButton">C</button>
     </div>
-    <p id="employeeAttributeError">Default Error Message.</p>
-    <h2>Employees</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Annual Salary</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="6"></td>
-            </tr>
-        </tfoot>
-    </table>
+    <h2 id="#calculationResult"></h2>
+    <ul id="previousCalculations">
+        
+    </ul>
     <div id="totalMonthlySalary"></div>
 </body>
 
