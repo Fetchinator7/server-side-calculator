@@ -8,9 +8,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('server/public'));
 
-app.get('/calculation', (req, res) => {
-  console.log('Sending response to /calculation');
-  res.status(200).send({ solution: calculationHistory[0] });
+app.get('/answer', (req, res) => {
+  console.log('Sending response to /answer');
+  res.status(200).send({ answer: solution });
+});
+
+app.get('/history', (req, res) => {
+  console.log('Sending response to /history');
+  res.status(200).send({ history: calculationHistory });
 });
 
 app.post('/calculate', (req, res) => {
@@ -38,8 +43,9 @@ app.listen(port, () => {
 });
 
 const calculationHistory = [];
+let solution = '';
 function performMathOperation(mathArray) {
-  const solution = eval(mathArray.join(''));
-  calculationHistory.push(solution);
-  return solution;
+  const sol = eval(mathArray.join(''));
+  calculationHistory.push(sol);
+  solution = sol;
 }
