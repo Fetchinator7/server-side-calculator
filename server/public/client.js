@@ -1,12 +1,11 @@
-$(document).ready(runTheseFunctions);
+$(document).ready(initializeQuery);
 
-// ['+', '-', 'x', 'X', '*', '/']
 const operationKeys = ['+', '-', 'x', '/'];
 // const operationKeys = require('../operators');
 const calculationsArray = [];
+let mathOperationText = '';
 
-function runTheseFunctions() {
-  // Check if the character the user is trying to enter are valid.
+function initializeQuery() {
   $('#inputNumbersField').on('keydown', checkIfInputIsValid);
   $('#add').on('click', add);
   $('#subtract').on('click', subtract);
@@ -16,10 +15,21 @@ function runTheseFunctions() {
   $('#clear').on('click', clearInput);
   $('#deleteHistory').on('click', deleteHistory);
   $('main').on('click', '.numberButton', checkNumber);
+  $('#pastCalculations').on('click', '.solution', reRunCalculation);
 }
 
 function checkNumber(event) {
   checkValidMath(event.target.id);
+}
+
+function reRunCalculation(event) {
+  const previousCalculation = $(event.target).text();
+  // Remove any whitespace so it's correctly formatted to run again.
+  mathOperationText = previousCalculation.replace(/\s+/g, '');
+  for (const char of mathOperationText) {
+    calculationsArray.push(char);
+  }
+  calculate();
 }
 
 function clearInput() {
@@ -69,8 +79,8 @@ function checkValidMath(key) {
     }
   // The user pressed enter so run the calculation as if they had clicked the calculate button.
   } else if (key === 'Enter') {
+    mathOperationText = $('#inputNumbersField').val();
     calculate();
-    allowCharacter = false;
   // If the input is 'C' clear the box and calculations array.
   } else if (key === 'c' || key === 'C') {
     clearInput();
@@ -114,17 +124,17 @@ function checkValidMath(key) {
   }
   if (allowCharacter === true) {
     $('#inputNumbersField').val(inputFieldValue + key);
+    mathOperationText = $('#inputNumbersField').val();
   }
 }
 
 function calculate() {
-  const inputFieldValue = $('#inputNumbersField').val();
   // If the end doesn't have a number (because it's an operator) add a 0 (34+ ==> 34+0).
-  const lastCharacter = inputFieldValue[inputFieldValue.length - 1];
+  const lastCharacter = mathOperationText[mathOperationText.length - 1];
   const theEndHasAnOperator = operationKeys.some(allowedKey => allowedKey === lastCharacter);
   if (theEndHasAnOperator === true || lastCharacter === '.') {
     calculationsArray.push('0');
-    $('#inputNumbersField').val(inputFieldValue + '0');
+    $('#inputNumbersField').val(mathOperationText + '0');
   }
   $.ajax({
     method: 'POST',
@@ -158,7 +168,7 @@ function updatePastCalculations() {
   }).then(function (response) {
     // append data to the DOM
     $('#pastCalculations').empty();
-    response.reverse().map(pastCalc => $('#pastCalculations').append(`<ul>${pastCalc}</ul>`));
+    response.reverse().map(pastCalc => $('#pastCalculations').append(`<ul><button class="solution">${pastCalc}</ul></button>`));
   });
 }
 
@@ -168,6 +178,7 @@ function deleteHistory() {
     url: '/delete'
   }).then(function (response) {
     updatePastCalculations();
+    $('h1').empty();
   }).catch(function (response) {
     alert('Oh no, that calculation was rejected :(');
   });

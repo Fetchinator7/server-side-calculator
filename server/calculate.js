@@ -8,6 +8,7 @@ function calculateResult(calculationRequestArray) {
   //   return null;
   // }
   if (calculationRequestArray.join('') === '42') {
+    calculationHistory.push(calculationRequestArray.join(''));
     return 'The Meaning Of Life!';
   } else {
     // Example input: ['2', '+', '2'];
