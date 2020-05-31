@@ -49,8 +49,12 @@ function checkValidMath(key) {
   const allowedNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   // The end has an operator and the user entered a new operator so add a 0 between them.
   const operatorPrecedesInput = operationKeys.some(allowedKey => allowedKey === inputFieldValue[inputFieldValue.length - 1]);
-  if (operationKeys.includes(key) === true) {
+  console.log(operatorPrecedesInput);
+  if (inputFieldValue.length === 0 && key === 'Enter') {
+    allowCharacter = false;
+  } else if (operationKeys.includes(key) === true) {
     if (operatorPrecedesInput === true || inputFieldValue.length === 0) {
+      console.log('hit this');
       inputFieldValue += '0';
       calculationsArray.push('0', key);
     } else {
@@ -88,11 +92,15 @@ function checkValidMath(key) {
   } else if (key === '.') {
     // If the user enters a period after an operator precede it with a 0 (/. ==> /0.)
     if (canEnterAnotherPeriod === true) {
-      if (operatorPrecedesInput === true) {
+      if (operatorPrecedesInput === true || inputFieldValue.length === 0) {
         inputFieldValue += '0';
+        calculationsArray.push('0', key);
+        // console.log('Hit 1');
+      } else {
+        calculationsArray.push(key);
+        // console.log('Hit 2');
       }
       canEnterAnotherPeriod = false;
-      calculationsArray.push('0', key);
     } else {
       allowCharacter = false;
     }
@@ -115,9 +123,12 @@ function calculate() {
   // If the end doesn't have a number (because it's an operator) add a 0 (34+ ==> 34+0).
   const lastCharacter = inputFieldValue[inputFieldValue.length - 1];
   const theEndHasAnOperator = operationKeys.some(allowedKey => allowedKey === lastCharacter);
-  if (theEndHasAnOperator === true) {
+  console.log(lastCharacter);
+  console.log(theEndHasAnOperator);
+  if (theEndHasAnOperator === true || lastCharacter === '.') {
     calculationsArray.push('0');
     $('#inputNumbersField').val(inputFieldValue + '0');
+    console.log('Hit 3');
   }
   console.log(calculationsArray);
   console.log('calculating...');

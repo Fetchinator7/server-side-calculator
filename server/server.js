@@ -1,4 +1,6 @@
 const express = require('express');
+const math = require('mathjs');
+// const calculationHistory = require('./public/calculations');
 
 const bodyParser = require('body-parser');
 // Let's create our server object
@@ -20,23 +22,10 @@ app.get('/history', (req, res) => {
 
 app.post('/calculate', (req, res) => {
   console.log('The user is posting to /calculate');
+  console.log(req.body.operationsArray);
   performMathOperation(req.body.operationsArray);
   res.sendStatus(200);
 });
-
-// app.post('/player', (req, res) => {
-//   console.log('User is trying to POST a player');
-//   console.log(req.body);
-
-//   // validate the player
-//   if ((req.body.born !== undefined)) {
-//     addAPlayer(req.body);
-//     // tennisPlayersArray.push(req.body);
-//     res.sendStatus(201); // OK! GREAT! CREATED! THANKS!
-//   } else {
-//     res.sendStatus(400); // BAD REQUEST
-//   }
-// });
 
 app.listen(port, () => {
   console.log(`listening on http://localhost:${port}`);
@@ -45,7 +34,17 @@ app.listen(port, () => {
 const calculationHistory = [];
 let solution = '';
 function performMathOperation(mathArray) {
-  const sol = eval(mathArray.join(''));
-  calculationHistory.push(sol);
-  solution = sol;
+  const formattedString = mathArray.join(' ');
+  let calculationFormattedString = mathArray.join('');
+  // TODO format strings to have spaces around the operator.
+  // ('0.4 - 0.2 / 0.1*7.0')
+  // Loop and if the current character is an operaotr and a space infront of and behind it.
+  if (formattedString.includes('x')) {
+    console.log('It includes x');
+    calculationFormattedString = formattedString.replace('x', '*');
+  }
+  console.log(`"${calculationFormattedString}`);
+  solution = math.evaluate(calculationFormattedString);
+  console.log(solution);
+  calculationHistory.push(formattedString);
 }
