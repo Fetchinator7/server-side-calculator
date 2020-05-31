@@ -155,8 +155,8 @@ function getResult() {
     url: '/answer'
   }).then(function (response) {
     // append data to the DOM
-    console.log(response.answer);
-    $('h1').html(`<h2>${response.answer}</h2>`);
+    console.log(response);
+    $('h1').html(`<h2>${response}</h2>`);
   });
 }
 
@@ -167,7 +167,7 @@ function updatePastCalculations() {
   }).then(function (response) {
     // append data to the DOM
     $('#pastCalculations').empty();
-    console.log(response.history);
-    response.history.map(pastCalc => $('#pastCalculations').append(`<ul>${pastCalc}</ul>`));
+    console.log(response);
+    response.map(pastCalc => $('#pastCalculations').append(`<ul>${pastCalc}</ul>`));
   });
 }
