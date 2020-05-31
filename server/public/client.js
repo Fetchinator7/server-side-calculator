@@ -14,6 +14,12 @@ function runTheseFunctions() {
   $('#divide').on('click', divide);
   $('#calculate').on('click', calculate);
   $('#clear').on('click', clearInput);
+  $('#deleteHistory').on('click', deleteHistory);
+  $('main').on('click', '.numberButton', checkNumber);
+}
+
+function checkNumber(event) {
+  checkValidMath(event.target.id);
 }
 
 function clearInput() {
@@ -153,5 +159,16 @@ function updatePastCalculations() {
     // append data to the DOM
     $('#pastCalculations').empty();
     response.reverse().map(pastCalc => $('#pastCalculations').append(`<ul>${pastCalc}</ul>`));
+  });
+}
+
+function deleteHistory() {
+  $.ajax({
+    method: 'POST',
+    url: '/delete'
+  }).then(function (response) {
+    updatePastCalculations();
+  }).catch(function (response) {
+    alert('Oh no, that calculation was rejected :(');
   });
 }

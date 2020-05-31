@@ -23,6 +23,12 @@ app.get('/history', (req, res) => {
   res.status(200).send(calculationHistory);
 });
 
+app.post('/delete', (req, res) => {
+  console.log('Emptying history array from /history');
+  calculationHistory.length = 0;
+  res.sendStatus(200);
+});
+
 app.post('/calculate', (req, res) => {
   console.log('The user is posting to /calculate');
   solution = calculateResult(req.body.operationsArray);
@@ -31,7 +37,6 @@ app.post('/calculate', (req, res) => {
   } else {
     res.sendStatus(200);
   }
-  // performMathOperation();
 });
 
 app.listen(port, () => {
