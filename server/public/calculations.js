@@ -1,3 +1,3 @@
 const calculationHistory = [];
 
-module.exports = (calculationHistory);
+module.exports = calculationHistory;

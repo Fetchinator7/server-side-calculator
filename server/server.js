@@ -14,11 +14,11 @@ app.use(express.static('server/public'));
 app.get('/answer', (req, res) => {
   console.log('Sending response to /answer');
   console.log('Sol is', solution);
-  res.status(200).send(solution);
+  res.status(200).send({ answer: solution });
 });
 
 app.get('/history', (req, res) => {
-  console.log('Sending response to /history');
+  console.log('Returning response from /history');
   console.log('which is', calculationHistory);
   res.status(200).send(calculationHistory);
 });

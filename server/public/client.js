@@ -1,5 +1,8 @@
 $(document).ready(runTheseFunctions);
 
+// ['+', '-', 'x', 'X', '*', '/']
+const operationKeys = ['+', '-', 'x', 'X', '*', '/'];
+// const operationKeys = require('../operators');
 const calculationsArray = [];
 
 function runTheseFunctions() {
@@ -36,8 +39,6 @@ function checkIfInputIsValid(event) {
   event.preventDefault();
   checkValidMath(key);
 }
-
-const operationKeys = ['+', '-', 'x', 'X', '*', '/'];
 
 // Only one "." can be entered per number on one side of the operator so if a "." is
 // entered this will be set to false ("40.4" false, "40.4+" true "40.4-34.2" false).
@@ -144,6 +145,7 @@ function calculate() {
     console.log('Server received the calculation!');
     getResult();
     updatePastCalculations();
+    clearInput();
   }).catch(function (response) {
     alert('Oh no, that calculation was rejected :(');
   });
@@ -155,8 +157,8 @@ function getResult() {
     url: '/answer'
   }).then(function (response) {
     // append data to the DOM
-    console.log(response);
-    $('h1').html(`<h2>${response}</h2>`);
+    console.log(response.answer);
+    $('h1').html(`<h2>${response.answer}</h2>`);
   });
 }
 
