@@ -26,8 +26,12 @@ app.get('/history', (req, res) => {
 app.post('/calculate', (req, res) => {
   console.log('The user is posting to /calculate');
   solution = calculateResult(req.body.operationsArray);
+  if (solution === null) {
+    res.sendStatus(400);
+  } else {
+    res.sendStatus(200);
+  }
   // performMathOperation();
-  res.sendStatus(200);
 });
 
 app.listen(port, () => {

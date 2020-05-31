@@ -58,6 +58,10 @@ const calculationHistory = require('./public/calculations');
 const operators = require('./operators');
 
 function calculateResult(calculationRequestArray) {
+  if (typeof calculationRequestArray !== 'string') {
+    console.log(`Error, the calculation to perform must be a string input, not "${calculationRequestArray}"`);
+    return null;
+  }
   if (calculationRequestArray.join('') === '42') {
     return 'The Meaning Of Life!';
   } else {
