@@ -10,6 +10,7 @@ before accepting.~~
 
 ## Stretch Goals
 
+~~Only allow the POST call to happen if all necessary input is ready.~~
 Clear the history by clicking a separate button.
 Change interface to look like a calculator (based on the default iPhone calculator.)
 Add buttons for each number, but still accept keyboard input.
