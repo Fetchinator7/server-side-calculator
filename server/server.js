@@ -11,21 +11,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('server/public'));
 
+let solution = 'This is supposed to be altered';
+
 app.get('/answer', (req, res) => {
-  console.log('Sending response to /answer');
-  console.log('Sol is', solution);
+  console.log('Getting calculation result from /answer');
   res.status(200).send({ answer: solution });
 });
 
 app.get('/history', (req, res) => {
-  console.log('Returning response from /history');
-  console.log('which is', calculationHistory);
+  console.log('Getting history array from /history');
   res.status(200).send(calculationHistory);
 });
 
 app.post('/calculate', (req, res) => {
   console.log('The user is posting to /calculate');
-  console.log('with args', req.body.operationsArray);
   solution = calculateResult(req.body.operationsArray);
   // performMathOperation();
   res.sendStatus(200);
@@ -34,5 +33,3 @@ app.post('/calculate', (req, res) => {
 app.listen(port, () => {
   console.log(`listening on http://localhost:${port}`);
 });
-
-let solution = 'This is supposed to be altered';

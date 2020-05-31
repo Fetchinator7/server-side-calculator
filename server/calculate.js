@@ -58,36 +58,42 @@ const calculationHistory = require('./public/calculations');
 const operators = require('./operators');
 
 function calculateResult(calculationRequestArray) {
-  console.log('Calc is ', calculationRequestArray);
   if (calculationRequestArray.join('') === '42') {
     return 'The Meaning Of Life!';
   } else {
-    const formattedArray = [];
+    // Example input: ['2', '+', '2'];
+    // The input won't have any spaces in it, but to calculate correctly math.js needs
+    // spaces around operators so loop through the input array and if it's an operator
+    // add spaces around it ['2', '+', '2'] ==> ['2',  ' + ', '2']
+    const historyFormattedArray = [];
     calculationRequestArray.map(calcArg => {
       if (operators.some(op => op === calcArg)) {
-        formattedArray.push(` ${calcArg} `);
+        historyFormattedArray.push(` ${calcArg} `);
       } else {
-        formattedArray.push(calcArg);
+        historyFormattedArray.push(calcArg);
       }
     });
-    const calculationFormattedArray = [];
-    if (calculationFormattedArray.some(char => char === 'x')) {
-      console.log('It includes x');
-      formattedArray.map(character => {
-        if (character === 'x') {
-          calculationFormattedArray.push('*');
+    // Since I wanted to use "x" instead of "*" loop through and change any "x" to a "*"
+    // so it can calculate the answer.
+    let calculationFormattedArray = [];
+    if (historyFormattedArray.some(elem => elem === ' x ') === true) {
+      historyFormattedArray.map(element => {
+        if (element === ' x ') {
+          calculationFormattedArray.push(' * ');
         } else {
-          calculationFormattedArray.push(character);
+          calculationFormattedArray.push(element);
         }
       });
+    } else {
+      calculationFormattedArray = historyFormattedArray;
     }
-    // Push in x's instead of *'s.
-    calculationHistory.push(formattedArray.join(''));
+    // Push in x's instead of *'s to the history.
+    calculationHistory.push(historyFormattedArray.join(''));
     const calculationFormattedString = calculationFormattedArray.join('');
-    console.log(`"${calculationFormattedString}"`);
     const solution = math.evaluate(calculationFormattedString);
-    if (solution === '') {
-      //
+    // Don't divide by 0!
+    if (solution === Infinity) {
+      return 'Error';
     } else {
       return solution;
     }

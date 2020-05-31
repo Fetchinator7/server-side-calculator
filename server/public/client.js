@@ -50,12 +50,10 @@ function checkValidMath(key) {
   const allowedNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   // The end has an operator and the user entered a new operator so add a 0 between them.
   const operatorPrecedesInput = operationKeys.some(allowedKey => allowedKey === inputFieldValue[inputFieldValue.length - 1]);
-  console.log(operatorPrecedesInput);
   if (inputFieldValue.length === 0 && key === 'Enter') {
     allowCharacter = false;
   } else if (operationKeys.includes(key) === true) {
     if (operatorPrecedesInput === true || inputFieldValue.length === 0) {
-      console.log('hit this');
       inputFieldValue += '0';
       calculationsArray.push('0', key);
     } else {
@@ -116,7 +114,6 @@ function checkValidMath(key) {
   if (allowCharacter === true) {
     $('#inputNumbersField').val(inputFieldValue + key);
   }
-  console.log(calculationsArray);
 }
 
 function calculate() {
@@ -124,15 +121,10 @@ function calculate() {
   // If the end doesn't have a number (because it's an operator) add a 0 (34+ ==> 34+0).
   const lastCharacter = inputFieldValue[inputFieldValue.length - 1];
   const theEndHasAnOperator = operationKeys.some(allowedKey => allowedKey === lastCharacter);
-  console.log(lastCharacter);
-  console.log(theEndHasAnOperator);
   if (theEndHasAnOperator === true || lastCharacter === '.') {
     calculationsArray.push('0');
     $('#inputNumbersField').val(inputFieldValue + '0');
-    console.log('Hit 3');
   }
-  console.log(calculationsArray);
-  console.log('calculating...');
   $.ajax({
     method: 'POST',
     url: '/calculate', // HTTP POST to http://localhost:5001/calculate
@@ -140,9 +132,6 @@ function calculate() {
     // that already exists!
     data: { operationsArray: calculationsArray }
   }).then(function (response) {
-    // it made it! heck yeah!
-    // if we are here, it means the server responded with 200/201
-    console.log('Server received the calculation!');
     getResult();
     updatePastCalculations();
     clearInput();
@@ -157,7 +146,6 @@ function getResult() {
     url: '/answer'
   }).then(function (response) {
     // append data to the DOM
-    console.log(response.answer);
     $('h1').html(`<h2>${response.answer}</h2>`);
   });
 }
@@ -169,7 +157,6 @@ function updatePastCalculations() {
   }).then(function (response) {
     // append data to the DOM
     $('#pastCalculations').empty();
-    console.log(response);
-    response.map(pastCalc => $('#pastCalculations').append(`<ul>${pastCalc}</ul>`));
+    response.reverse().map(pastCalc => $('#pastCalculations').append(`<ul>${pastCalc}</ul>`));
   });
 }
