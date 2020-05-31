@@ -1,7 +1,7 @@
 $(document).ready(runTheseFunctions);
 
 // ['+', '-', 'x', 'X', '*', '/']
-const operationKeys = ['+', '-', 'x', 'X', '*', '/'];
+const operationKeys = ['+', '-', 'x', '/'];
 // const operationKeys = require('../operators');
 const calculationsArray = [];
 
@@ -52,14 +52,15 @@ function checkValidMath(key) {
   const operatorPrecedesInput = operationKeys.some(allowedKey => allowedKey === inputFieldValue[inputFieldValue.length - 1]);
   if (inputFieldValue.length === 0 && key === 'Enter') {
     allowCharacter = false;
+  // If it's an operator (potentially) add a lead 0 (3.- ==> 3.0-).
   } else if (operationKeys.includes(key) === true) {
-    if (operatorPrecedesInput === true || inputFieldValue.length === 0) {
+    canEnterAnotherPeriod = true;
+    if (operatorPrecedesInput === true || inputFieldValue.length === 0 || calculationsArray[calculationsArray.length - 1] === '.') {
       inputFieldValue += '0';
       calculationsArray.push('0', key);
     } else {
       calculationsArray.push(key);
     }
-    canEnterAnotherPeriod = true;
   // The user pressed enter so run the calculation as if they had clicked the calculate button.
   } else if (key === 'Enter') {
     calculate();
@@ -75,12 +76,6 @@ function checkValidMath(key) {
     }
     calculationsArray.pop();
     $('#inputNumbersField').val(inputFieldValue.slice(0, -1));
-    allowCharacter = false;
-  // The user may have entered '*', but treat it as if they entered 'x';
-  } else if (key === '*' || key === 'x' || key === 'X') {
-    $('#inputNumbersField').val(inputFieldValue + 'x');
-    calculationsArray.push('x');
-    canEnterAnotherPeriod = false;
     allowCharacter = false;
   // The user entered another operator (like +) so allow them to add another period.
   } else if (operationKeys.includes(key)) {
