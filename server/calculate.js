@@ -3,10 +3,10 @@ const calculationHistory = require('./public/calculations');
 const operators = require('./operators');
 
 function calculateResult(calculationRequestArray) {
-  if (typeof calculationRequestArray !== 'string') {
-    console.log(`Error, the calculation to perform must be a string input, not "${calculationRequestArray}"`);
-    return null;
-  }
+  // if (typeof calculationRequestArray !== 'string') {
+  //   console.log(`Error, the calculation to perform must be a string input, not "${calculationRequestArray}"`);
+  //   return null;
+  // }
   if (calculationRequestArray.join('') === '42') {
     return 'The Meaning Of Life!';
   } else {
@@ -41,7 +41,7 @@ function calculateResult(calculationRequestArray) {
     const calculationFormattedString = calculationFormattedArray.join('');
     const solution = math.evaluate(calculationFormattedString);
     // Don't divide by 0!
-    if (solution === Infinity) {
+    if (solution === Infinity || solution === -Infinity) {
       return 'Error';
     } else {
       return solution;
