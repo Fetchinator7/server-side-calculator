@@ -22,10 +22,10 @@ app.get('/history', (req, res) => {
   res.status(200).send(calculationHistory);
 });
 
-app.post('/delete', (req, res) => {
-  console.log('Emptying history array from /history');
+app.delete('/delete', (req, res) => {
+  console.log('Emptying history array for /history');
   calculationHistory.length = 0;
-  res.sendStatus(200);
+  res.sendStatus(204);
 });
 
 app.post('/calculate', (req, res) => {

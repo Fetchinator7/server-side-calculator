@@ -58,7 +58,7 @@ function exponent() {
 
 function checkIfInputIsValid(event) {
   const key = event.key;
-  // Prevent what the input is from going through and add it again if it's valid.
+  // Prevent whatever the input is from going through and add it again if it's valid.
   event.preventDefault();
   checkValidMath(key);
 }
@@ -187,7 +187,7 @@ function updatePastCalculations() {
 function deleteHistory() {
   $.ajax({
     // I know this should be a DELETE and not a POST, but I didn't have the time to research it.
-    method: 'POST',
+    method: 'DELETE',
     url: '/delete'
   }).then(function (response) {
     updatePastCalculations();
