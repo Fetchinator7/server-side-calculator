@@ -1,1 +1,1 @@
-module.exports = ['+', '-', 'x', '/'];
+module.exports = ['+', '-', 'x', '/', '^'];

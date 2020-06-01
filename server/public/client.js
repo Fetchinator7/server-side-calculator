@@ -1,6 +1,6 @@
 $(document).ready(initializeQuery);
 
-const operationKeys = ['+', '-', 'x', '/'];
+const operationKeys = ['+', '-', 'x', '/', '^'];
 // const operationKeys = require('../operators');
 const calculationsArray = [];
 let mathOperationText = '';
@@ -11,6 +11,7 @@ function initializeQuery() {
   $('#subtract').on('click', subtract);
   $('#multiply').on('click', multiply);
   $('#divide').on('click', divide);
+  $('#exponent').on('click', exponent);
   $('#calculate').on('click', calculate);
   $('#clear').on('click', clearInput);
   $('#deleteHistory').on('click', deleteHistory);
@@ -48,6 +49,9 @@ function multiply() {
 }
 function divide() {
   checkValidMath('/');
+}
+function exponent() {
+  checkValidMath('^');
 }
 
 function checkIfInputIsValid(event) {
@@ -174,6 +178,7 @@ function updatePastCalculations() {
 
 function deleteHistory() {
   $.ajax({
+    // I know this should be a delete, but I didn't have the time to research it.
     method: 'POST',
     url: '/delete'
   }).then(function (response) {
