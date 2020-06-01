@@ -87,6 +87,7 @@ function checkValidMath(key) {
     }
   // The user pressed enter so run the calculation as if they had clicked the calculate button.
   } else if (key === 'Enter') {
+    allowCharacter = false;
     // Set the string of the operation(s) to perform the value of the input field.
     mathOperationText = $('#inputNumbersField').val();
     calculate();
