@@ -1,23 +1,26 @@
 $(document).ready(initializeQuery);
 
 const operationKeys = ['+', '-', 'x', '/', '^'];
-// const operationKeys = require('../operators');
 const calculationsArray = [];
 let mathOperationText = '';
 
 function initializeQuery() {
-  // I'll try and make these more compact in the future.
   $('#inputNumbersField').on('keydown', checkIfInputIsValid);
-  $('#add').on('click', add);
-  $('#subtract').on('click', subtract);
-  $('#multiply').on('click', multiply);
-  $('#divide').on('click', divide);
-  $('#exponent').on('click', exponent);
-  $('#calculate').on('click', calculate);
-  $('#clear').on('click', clearInput);
+  $('#calculator').on('click', checkOperation);
   $('#deleteHistory').on('click', deleteHistory);
-  $('main').on('click', '.numberButton', checkNumber);
   $('#pastCalculations').on('click', '.solution', reRunCalculation);
+}
+
+function checkOperation(event) {
+  // console.log('You hit test!');
+  // console.log($(event.target).val());
+  if (event.target.id === 'clear') {
+    clearInput();
+  } else if (event.target.id === 'calculate') {
+    calculate();
+  } else {
+    checkValidMath($(event.target).val());
+  }
 }
 
 function checkNumber(event) {
@@ -40,23 +43,9 @@ function clearInput() {
   calculationsArray.length = 0;
   canEnterAnotherPeriod = true;
 }
-function add() {
-  checkValidMath('+');
-}
-function subtract() {
-  checkValidMath('-');
-}
-function multiply() {
-  checkValidMath('x');
-}
-function divide() {
-  checkValidMath('/');
-}
-function exponent() {
-  checkValidMath('^');
-}
 
 function checkIfInputIsValid(event) {
+  console.log('This is running');
   const key = event.key;
   // Prevent whatever the input is from going through and add it again if it's valid.
   event.preventDefault();
@@ -77,7 +66,7 @@ function checkValidMath(key) {
   const operatorPrecedesInput = operationKeys.some(allowedKey => allowedKey === inputFieldValue[inputFieldValue.length - 1]);
   if (inputFieldValue.length === 0 && key === 'Enter') {
     allowCharacter = false;
-  // If it's an operator so (potentially) add a leading 0 (3.- ==> 3.0-).
+    // If it's an operator so (potentially) add a leading 0 (3.- ==> 3.0-).
   } else if (operationKeys.includes(key) === true) {
     canEnterAnotherPeriod = true;
     if (operatorPrecedesInput === true || inputFieldValue.length === 0 || calculationsArray[calculationsArray.length - 1] === '.') {
@@ -86,13 +75,13 @@ function checkValidMath(key) {
     } else {
       calculationsArray.push(key);
     }
-  // The user pressed enter so run the calculation as if they had clicked the calculate button.
+    // The user pressed enter so run the calculation as if they had clicked the calculate button.
   } else if (key === 'Enter') {
     allowCharacter = false;
     // Set the string of the operation(s) to perform the value of the input field.
     mathOperationText = $('#inputNumbersField').val();
     calculate();
-  // If the input is 'C' clear the box and calculations array.
+    // If the input is 'C' clear the box and calculations array.
   } else if (key === 'c' || key === 'C') {
     clearInput();
     allowCharacter = false;
@@ -104,12 +93,12 @@ function checkValidMath(key) {
     calculationsArray.pop();
     $('#inputNumbersField').val(inputFieldValue.slice(0, -1));
     allowCharacter = false;
-  // The user entered another operator (like +) so allow them to add another period.
+    // The user entered another operator (like +) so allow them to add another period.
   } else if (operationKeys.includes(key)) {
     canEnterAnotherPeriod = true;
     calculationsArray.push(key);
-  // The user entered "." so prevent them from entering any more "."
-  // (unless the enter an operator).
+    // The user entered "." so prevent them from entering any more "."
+    // (unless the enter an operator).
   } else if (key === '.') {
     if (canEnterAnotherPeriod === true) {
       // If the user enters a period after an operator precede it with a 0 (/. ==> /0.)
@@ -168,7 +157,7 @@ function getResult() {
     type: 'GET',
     url: '/answer'
   }).then(function (response) {
-    $('h1').html(`<h2>${response.answer}</h2>`);
+    $('#calculationResult').html(`<h2>${response.answer}</h2>`);
   });
 }
 
@@ -191,7 +180,7 @@ function deleteHistory() {
     url: '/delete'
   }).then(function (response) {
     updatePastCalculations();
-    $('h1').empty();
+    $('#calculationResult').empty();
   }).catch(function (response) {
     alert('Oh no, that calculation was rejected :(');
   });

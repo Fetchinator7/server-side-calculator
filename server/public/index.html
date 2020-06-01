@@ -10,84 +10,49 @@
     <script type="text/javascript" src="client.js"></script>
     <title>Calculator</title>
 </head>
-
 <body>
-    <header>
-        Server Side Calculator
-    </header>
-     <h2>Server Side Calculator</h2>
-     <input type="text" id="inputNumbersField" autocomplete="off"><br>
-     <main>
-         <button class="numberButton" id="1">1</button>
-         <button class="numberButton" id="2">2</button>
-         <button class="numberButton" id="3">3</button>
-         <button class="numberButton" id="4">4</button>
-         <button class="numberButton" id="5">5</button>
-         <button class="numberButton" id="6">6</button>
-         <button class="numberButton" id="7">7</button>
-         <button class="numberButton" id="8">8</button>
-         <button class="numberButton" id="9">9</button>
-         <button class="numberButton" id=".">.</button>
-     </main>
-    <div class="calculatorInputs">
-        <button class="operationButton" id="add">+</button>
-        <button class="operationButton" id="subtract">-</button>
-        <button class="operationButton" id="multiply">x</button>
-        <button class="operationButton" id="divide">/</button>
-        <button class="operationButton" id="exponent">^</button>
-        <button class="operationButton" id="calculate">=</button>
-        <button class="operationButton" id="clear">C</button>
-        <button class="operationButton" id="deleteHistory">Delete History</button>
-    </div>
-    <h1></h1>
-    <ul id="calculationResult"></ul>
-    <ul id="pastCalculations"></ul>
-</body>
-<!-- <body>
     <header>
         Calculator
     </header>
     <h2>Server Side Calculator</h2>
-    <form name="calculator">
-        <table>
+    <form>
+        <input type="text" id="inputNumbersField" autocomplete="off">
+        <table id="calculator">
             <tr>
-                <td colspan="4">
-                    <input type="text" name="display" id="display" disabled>
-                </td>
-            </tr>
-            <tr>
-                <td><input type="button" id="clear" class="numberButton" value="C"></td>
-                <td><input type="button" id="exponent" class="numberButton" value="^"></td>
+                <td><input type="button" id="clear" value="C"></td>
+                <td><input type="button" class="operationButton" value="^"></td>
                 <td><input type="button" class="null" value=" "></td>
-                <td><input type="button" id="divide" class="operationButton" value="/"></td>
+                <td><input type="button" class="operationButton" value="/"></td>
             </tr>
             <tr>
-                <td><input type="button" id="7" class="numberButton" value="7"></td>
-                <td><input type="button" id="8" class="numberButton" value="8"></td>
-                <td><input type="button" id="9" class="numberButton" value="9"></td>
-                <td><input type="button" id="multiply" class="operationButton" value="x"></td>
+                <td><input type="button" class="numberButton" value="7"></td>
+                <td><input type="button" class="numberButton" value="8"></td>
+                <td><input type="button" class="numberButton" value="9"></td>
+                <td><input type="button" class="operationButton" value="x"></td>
             </tr>
             <tr>
-                <td><input type="button" id="4" class="numberButton" value="4"></td>
-                <td><input type="button" id="5" class="numberButton" value="5"></td>
-                <td><input type="button" id="6" class="numberButton" value="6"></td>
-                <td><input type="button" id="subtract" class="operationButton" value="-"></td>
+                <td><input type="button" class="numberButton" value="4"></td>
+                <td><input type="button" class="numberButton" value="5"></td>
+                <td><input type="button" class="numberButton" value="6"></td>
+                <td><input type="button" class="operationButton" value="-"></td>
             </tr>
             <tr>
-                <td><input type="button" id="1" class="numberButton" value="1"></td>
-                <td><input type="button" id="2" class="numberButton" value="2"></td>
-                <td><input type="button" id="3" class="numberButton" value="3"></td>
-                <td><input type="button" id="subtract" class="operationButton" value="+"></td>
+                <td><input type="button" class="numberButton" value="1"></td>
+                <td><input type="button" class="numberButton" value="2"></td>
+                <td><input type="button" class="numberButton" value="3"></td>
+                <td><input type="button" class="operationButton" value="+"></td>
             </tr>
             <tr>
-                <td><input type="button" id="0" class="numberButton" value="0"></td>
+                <td><input type="button" class="numberButton" value="0"></td>
                 <td><input type="button" class="null" value=" "></td>
-                <td><input type="button" id="." class="operationButton" value="."></td>
-                <td><input type="button" id="=" class="operationButton" value="="></td>
+                <td><input type="button" class="operationButton" value="."></td>
+                <td><input type="button" id="calculate" value="="></td>
             </tr>
         </table>
         <td><input type="button" id="deleteHistory" class="operationButton" value="Remove History"></td>
     </form>
-</body> -->
+    <ul id="calculationResult"></ul>
+    <ul id="pastCalculations"></ul>
+</body>
 
 </html>

@@ -38,7 +38,7 @@ button, input {
   border-radius: 50%;
 }
 
-button:hover {
+input:hover {
   background-color: rgb(17, 153, 21);
 }
 
