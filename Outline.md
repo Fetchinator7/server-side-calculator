@@ -15,9 +15,9 @@ before accepting.~~
 Change interface to look like a calculator (based on the default iPhone calculator.)
 ~~Add buttons for each number, but still accept keyboard input.~~
 ~~Allow the user to click on a past calculation and run it again.~~
-Allow the user to multiple to the power of a number (let result = 10 ** precision;)
 
 ## My Own Stretch Goals
 
+~~Allow the user to multiple to the power of a number (let result = 10 ** precision;)~~
 Add a % that converts a number to percent but still displays the percent.
-(84 ==> .84 in array and 84% visually)
+(84 ==> 0.84 in array and 84% visually)

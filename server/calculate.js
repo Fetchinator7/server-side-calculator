@@ -3,10 +3,7 @@ const calculationHistory = require('./public/calculations');
 const operators = require('./operators');
 
 function calculateResult(calculationRequestArray) {
-  // if (typeof calculationRequestArray !== 'string') {
-  //   console.log(`Error, the calculation to perform must be a string input, not "${calculationRequestArray}"`);
-  //   return null;
-  // }
+  // Easter egg :)
   if (calculationRequestArray.join('') === '42') {
     calculationHistory.push(calculationRequestArray.join(''));
     return 'The Meaning Of Life!';

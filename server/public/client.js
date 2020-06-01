@@ -27,6 +27,7 @@ function reRunCalculation(event) {
   const previousCalculation = $(event.target).text();
   // Remove any whitespace so it's correctly formatted to run again.
   mathOperationText = previousCalculation.replace(/\s+/g, '');
+  // Append all of the characters for the previous calculation.
   for (const char of mathOperationText) {
     calculationsArray.push(char);
   }
@@ -56,23 +57,26 @@ function exponent() {
 
 function checkIfInputIsValid(event) {
   const key = event.key;
+  // Prevent what the input is from going through and add it again if it's valid.
   event.preventDefault();
   checkValidMath(key);
 }
 
 // Only one "." can be entered per number on one side of the operator so if a "." is
-// entered this will be set to false ("40.4" false, "40.4+" true "40.4-34.2" false).
+// entered this will be set to false ("40.4" false, "40.4+34" true "40.4-34.2" false).
 let canEnterAnotherPeriod = true;
 function checkValidMath(key) {
+  // Default to allow the current key to be entered.
   let allowCharacter = true;
   let inputFieldValue = $('#inputNumbersField').val();
   // Array of the string values for allowed keys.
   const allowedNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   // The end has an operator and the user entered a new operator so add a 0 between them.
+  // e.g., if the end value is a "+" and a "-" is entered convert that to "+0-"
   const operatorPrecedesInput = operationKeys.some(allowedKey => allowedKey === inputFieldValue[inputFieldValue.length - 1]);
   if (inputFieldValue.length === 0 && key === 'Enter') {
     allowCharacter = false;
-  // If it's an operator (potentially) add a lead 0 (3.- ==> 3.0-).
+  // If it's an operator so (potentially) add a leading 0 (3.- ==> 3.0-).
   } else if (operationKeys.includes(key) === true) {
     canEnterAnotherPeriod = true;
     if (operatorPrecedesInput === true || inputFieldValue.length === 0 || calculationsArray[calculationsArray.length - 1] === '.') {
@@ -83,6 +87,7 @@ function checkValidMath(key) {
     }
   // The user pressed enter so run the calculation as if they had clicked the calculate button.
   } else if (key === 'Enter') {
+    // Set the string of the operation(s) to perform the value of the input field.
     mathOperationText = $('#inputNumbersField').val();
     calculate();
   // If the input is 'C' clear the box and calculations array.
@@ -104,22 +109,22 @@ function checkValidMath(key) {
   // The user entered "." so prevent them from entering any more "."
   // (unless the enter an operator).
   } else if (key === '.') {
-    // If the user enters a period after an operator precede it with a 0 (/. ==> /0.)
     if (canEnterAnotherPeriod === true) {
+      // If the user enters a period after an operator precede it with a 0 (/. ==> /0.)
       if (operatorPrecedesInput === true || inputFieldValue.length === 0) {
         inputFieldValue += '0';
         calculationsArray.push('0', key);
-        // console.log('Hit 1');
       } else {
         calculationsArray.push(key);
-        // console.log('Hit 2');
       }
       canEnterAnotherPeriod = false;
     } else {
       allowCharacter = false;
     }
   } else {
-    const enteredAValidKey = allowedNumbers.concat(operationKeys).some(allowedKey => key === allowedKey);
+    // If it's none of these special characters and just a plain old number allow it,
+    // otherwise don't allow whatever the input was.
+    const enteredAValidKey = allowedNumbers.some(allowedKey => key === allowedKey);
     if (enteredAValidKey === false) {
       allowCharacter = false;
     } else {
@@ -128,8 +133,10 @@ function checkValidMath(key) {
   }
   if (allowCharacter === true) {
     $('#inputNumbersField').val(inputFieldValue + key);
-    mathOperationText = $('#inputNumbersField').val();
   }
+  // Always set the mathOperationText value to the text on the input filed since the value
+  // of the input field was altered.
+  mathOperationText = $('#inputNumbersField').val();
 }
 
 function calculate() {
@@ -142,11 +149,10 @@ function calculate() {
   }
   $.ajax({
     method: 'POST',
-    url: '/calculate', // HTTP POST to http://localhost:5001/calculate
-    // this MUST be an object -- make it here, or use one
-    // that already exists!
+    url: '/calculate',
     data: { operationsArray: calculationsArray }
   }).then(function (response) {
+    // If the calculation was successful reset everything.
     getResult();
     updatePastCalculations();
     clearInput();
@@ -160,7 +166,6 @@ function getResult() {
     type: 'GET',
     url: '/answer'
   }).then(function (response) {
-    // append data to the DOM
     $('h1').html(`<h2>${response.answer}</h2>`);
   });
 }
@@ -170,15 +175,16 @@ function updatePastCalculations() {
     type: 'GET',
     url: '/history'
   }).then(function (response) {
-    // append data to the DOM
     $('#pastCalculations').empty();
+    // Add a button for each past calculation (in reverse order so the most recent
+    // calculation is at the top instead of being at the bottom.)
     response.reverse().map(pastCalc => $('#pastCalculations').append(`<ul><button class="solution">${pastCalc}</ul></button>`));
   });
 }
 
 function deleteHistory() {
   $.ajax({
-    // I know this should be a delete, but I didn't have the time to research it.
+    // I know this should be a DELETE and not a POST, but I didn't have the time to research it.
     method: 'POST',
     url: '/delete'
   }).then(function (response) {
