@@ -38,6 +38,10 @@ button, input {
   border-radius: 50%;
 }
 
+button:hover {
+  background-color: rgb(17, 153, 21);
+}
+
 input {
   font-size: 25px;
   margin: 7px 2px;
