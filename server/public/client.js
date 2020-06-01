@@ -6,6 +6,7 @@ const calculationsArray = [];
 let mathOperationText = '';
 
 function initializeQuery() {
+  // I'll try and make these more compact in the future.
   $('#inputNumbersField').on('keydown', checkIfInputIsValid);
   $('#add').on('click', add);
   $('#subtract').on('click', subtract);
