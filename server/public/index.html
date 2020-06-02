@@ -11,45 +11,42 @@
     <title>Calculator</title>
 </head>
 <body>
-    <header>
-        Calculator
-    </header>
     <h2>Server Side Calculator</h2>
     <form>
         <input type="text" id="inputNumbersField" autocomplete="off">
         <table id="calculator">
             <tr>
-                <td><input type="button" id="clear" value="C"></td>
-                <td><input type="button" class="operationButton" value="^"></td>
-                <td><input type="button" class="null" value=" "></td>
-                <td><input type="button" class="operationButton" value="/"></td>
+                <td><input type="button" class="round" id="clear" value="C"></td>
+                <td><input type="button" class="round operationButton" value="^"></td>
+                <td><input type="button" class="round null" value=" "></td>
+                <td><input type="button" class="round operationButton" value="/"></td>
             </tr>
             <tr>
-                <td><input type="button" class="numberButton" value="7"></td>
-                <td><input type="button" class="numberButton" value="8"></td>
-                <td><input type="button" class="numberButton" value="9"></td>
-                <td><input type="button" class="operationButton" value="x"></td>
+                <td><input type="button" class="round numberButton" value="7"></td>
+                <td><input type="button" class="round numberButton" value="8"></td>
+                <td><input type="button" class="round numberButton" value="9"></td>
+                <td><input type="button" class="round operationButton" value="x"></td>
             </tr>
             <tr>
-                <td><input type="button" class="numberButton" value="4"></td>
-                <td><input type="button" class="numberButton" value="5"></td>
-                <td><input type="button" class="numberButton" value="6"></td>
-                <td><input type="button" class="operationButton" value="-"></td>
+                <td><input type="button" class="round numberButton" value="4"></td>
+                <td><input type="button" class="round numberButton" value="5"></td>
+                <td><input type="button" class="round numberButton" value="6"></td>
+                <td><input type="button" class="round operationButton" value="-"></td>
             </tr>
             <tr>
-                <td><input type="button" class="numberButton" value="1"></td>
-                <td><input type="button" class="numberButton" value="2"></td>
-                <td><input type="button" class="numberButton" value="3"></td>
-                <td><input type="button" class="operationButton" value="+"></td>
+                <td><input type="button" class="round numberButton" value="1"></td>
+                <td><input type="button" class="round numberButton" value="2"></td>
+                <td><input type="button" class="round numberButton" value="3"></td>
+                <td><input type="button" class="round operationButton" value="+"></td>
             </tr>
             <tr>
-                <td><input type="button" class="numberButton" value="0"></td>
-                <td><input type="button" class="null" value=" "></td>
-                <td><input type="button" class="operationButton" value="."></td>
-                <td><input type="button" id="calculate" value="="></td>
+                <td><input type="button" class="round numberButton" value="0"></td>
+                <td><input type="button" class="round null" value=" "></td>
+                <td><input type="button" class="round operationButton" value="."></td>
+                <td><input type="button" class="round" id="calculate" value="="></td>
             </tr>
         </table>
-        <td><input type="button" id="deleteHistory" class="operationButton" value="Remove History"></td>
+        <td><input type="button" id="deleteHistory" value="Remove History"></td>
     </form>
     <ul id="calculationResult"></ul>
     <ul id="pastCalculations"></ul>
