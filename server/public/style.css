@@ -31,7 +31,7 @@ button, input {
   color: rgb(179, 179, 179);
   border: none;
   color: white;
-  padding: 15px;
+  padding: 30px; /*made this larger*/
   text-align: center;
   font-size: 30px;
   margin: 2px 2px;
@@ -39,6 +39,7 @@ button, input {
 
 .round {
   border-radius: 90%;
+  font-size: x-large;
 }
 
 input:hover {
@@ -52,15 +53,15 @@ input:hover {
 input {
   font-size: 25px;
   margin: 7px 2px;
-  border-radius: 50%;
+  border-radius: 10%; /*want more squarish?*/
+}
+
+.rectangle {
+  /* background-color: red; */
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-}
-table {
-  width: 25%;
+  width: 10%;
   border: solid black 5px;
   border-collapse: collapse;
 }
@@ -75,17 +76,19 @@ table.menu {
   margin-right: 0px;
   margin-left: auto;
 }
-/* * {
+/* {
   box-sizing: border-box;
-}
+}*/
 
 ul {
   list-style-type: none;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row; /*look into directions?*/
+  margin-left: 600px;
 }
-
+/*
 li {
   flex: 0 0 50%;
   border: 1px solid grey;
@@ -93,3 +96,11 @@ li {
   display: flex;
   align-items: flex-end;
 } */
+
+/* #pastCalculations {
+  margin-left: auto;
+} */
+
+.solution {
+  margin-left: auto;
+}
