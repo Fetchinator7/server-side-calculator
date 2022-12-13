@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/Fetchinator7/jquery-server-side-calculator#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mathjs": "^7.0.1"
   }
 }
